@@ -1,26 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Login from "./Components/Login";
+import "./App.css";
+import DataList from "./Components/DataList";
+import Register from "./Components/Register";
+import axios from "axios";
 
-function App() {
+const App = () => {
+  const [token, setToken] = useState("Test");
+  const PAGES_URL = "https://localhost:44396";
+
+  const client = (token = null) => {
+    const defaultOptions = {
+      headers: {
+        Authorization: token ? `Bearer ${token}` : ""
+      }
+    };
+
+    return {
+      get: (url, options = {}) =>
+        axios.get(url, { ...defaultOptions, ...options }),
+      post: (url, data, options = {}) =>
+        axios.post(url, data, { ...defaultOptions, ...options }),
+      put: (url, data, options = {}) =>
+        axios.put(url, data, { ...defaultOptions, ...options }),
+      delete: (url, options = {}) =>
+        axios.delete(url, { ...defaultOptions, ...options })
+    };
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      Token: {token}
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <Login onTokenChange={setToken} token={token} />
+          </Route>
+          <Route path="/visits">
+            <DataList />
+          </Route>
+          <Route path="/register">
+            <Register />
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
-}
+};
 
 export default App;
