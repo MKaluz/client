@@ -12,7 +12,11 @@ const AddVisit = props => {
       .post("https://localhost:44396/user/authenticate", {
         username: _email,
         password: _pass
-      })
+      },{
+      headers: {
+        Authorization: `Bearer ${props.token}`
+      }
+    })
       .then(
         response => {
           console.log(response);

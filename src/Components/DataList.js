@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Table } from "react-bootstrap";
+import { Table, BootstrapTable } from "react-bootstrap";
 
 const DataList = () => {
   return (
+    <BootstrapTable data={}></BootstrapTable>
     <Table striped bordered hover>
       <thead>
         <tr>
